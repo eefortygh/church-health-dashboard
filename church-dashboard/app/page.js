@@ -461,4 +461,5 @@ export default function ChurchDashboard() {
           </div>
         </div>
       </div>
-    </div
+    </div>
+  )}

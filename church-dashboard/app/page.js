@@ -110,11 +110,182 @@ export default function ChurchDashboard() {
     return keyMap[locationName];
   };
 
-  // Function to get filtered data based on selected location
+  // Function to get filtered data based on selected location and timeframe
   const getFilteredData = () => {
+    // First get all available data (we'll expand this with more weeks/months)
+    const allWeeks = [
+      // Adding more historical data for different timeframes
+      { 
+        week: 'Week -36', 
+        mountainView: { giving: 6800, adults: 155, volunteers: 22, kids: 58, decisions: 1, newMembers: 2 },
+        sanJose: { giving: 6200, adults: 148, volunteers: 20, kids: 52, decisions: 1, newMembers: 1 },
+        sanFrancisco: { giving: 5800, adults: 132, volunteers: 18, kids: 45, decisions: 0, newMembers: 1 },
+        oakland: { giving: 4200, adults: 115, volunteers: 16, kids: 38, decisions: 1, newMembers: 1 },
+        rome: { giving: 3400, adults: 98, volunteers: 13, kids: 32, decisions: 0, newMembers: 0 },
+        milan: { giving: 2800, adults: 82, volunteers: 11, kids: 28, decisions: 0, newMembers: 0 },
+        modena: { giving: 2100, adults: 65, volunteers: 9, kids: 22, decisions: 0, newMembers: 0 },
+        chicago: { giving: 7500, adults: 175, volunteers: 26, kids: 65, decisions: 1, newMembers: 3 },
+        honolulu: { giving: 2400, adults: 72, volunteers: 10, kids: 24, decisions: 0, newMembers: 1 },
+        dubai: { giving: 4600, adults: 105, volunteers: 15, kids: 35, decisions: 1, newMembers: 1 },
+        saigon: { giving: 3800, adults: 118, volunteers: 17, kids: 42, decisions: 1, newMembers: 1 },
+        london: { giving: 7200, adults: 168, volunteers: 24, kids: 58, decisions: 1, newMembers: 2 },
+        westLondon: { giving: 3900, adults: 98, volunteers: 14, kids: 32, decisions: 0, newMembers: 1 },
+        madrid: { giving: 3200, adults: 88, volunteers: 12, kids: 28, decisions: 0, newMembers: 0 },
+        frankfurt: { giving: 2800, adults: 78, volunteers: 10, kids: 25, decisions: 0, newMembers: 0 }
+      },
+      // Adding more weeks... (I'll add several for demonstration)
+      ...Array.from({ length: 40 }, (_, i) => {
+        const weekNum = -35 + i;
+        const weekLabel = weekNum <= 0 ? `Week ${weekNum}` : `Week ${weekNum}`;
+        return {
+          week: weekLabel,
+          mountainView: { 
+            giving: Math.floor(6800 + Math.random() * 2000 + (weekNum * 20)), 
+            adults: Math.floor(155 + Math.random() * 40 + (weekNum * 2)), 
+            volunteers: Math.floor(22 + Math.random() * 8), 
+            kids: Math.floor(58 + Math.random() * 20), 
+            decisions: Math.floor(Math.random() * 3), 
+            newMembers: Math.floor(Math.random() * 4) 
+          },
+          sanJose: { 
+            giving: Math.floor(6200 + Math.random() * 1800 + (weekNum * 18)), 
+            adults: Math.floor(148 + Math.random() * 35 + (weekNum * 1.8)), 
+            volunteers: Math.floor(20 + Math.random() * 7), 
+            kids: Math.floor(52 + Math.random() * 18), 
+            decisions: Math.floor(Math.random() * 3), 
+            newMembers: Math.floor(Math.random() * 4) 
+          },
+          sanFrancisco: { 
+            giving: Math.floor(5800 + Math.random() * 1600 + (weekNum * 16)), 
+            adults: Math.floor(132 + Math.random() * 30 + (weekNum * 1.6)), 
+            volunteers: Math.floor(18 + Math.random() * 6), 
+            kids: Math.floor(45 + Math.random() * 16), 
+            decisions: Math.floor(Math.random() * 2), 
+            newMembers: Math.floor(Math.random() * 3) 
+          },
+          oakland: { 
+            giving: Math.floor(4200 + Math.random() * 1200 + (weekNum * 12)), 
+            adults: Math.floor(115 + Math.random() * 25 + (weekNum * 1.2)), 
+            volunteers: Math.floor(16 + Math.random() * 5), 
+            kids: Math.floor(38 + Math.random() * 14), 
+            decisions: Math.floor(Math.random() * 2), 
+            newMembers: Math.floor(Math.random() * 3) 
+          },
+          rome: { 
+            giving: Math.floor(3400 + Math.random() * 1000 + (weekNum * 10)), 
+            adults: Math.floor(98 + Math.random() * 22 + (weekNum * 1)), 
+            volunteers: Math.floor(13 + Math.random() * 4), 
+            kids: Math.floor(32 + Math.random() * 12), 
+            decisions: Math.floor(Math.random() * 2), 
+            newMembers: Math.floor(Math.random() * 2) 
+          },
+          milan: { 
+            giving: Math.floor(2800 + Math.random() * 800 + (weekNum * 8)), 
+            adults: Math.floor(82 + Math.random() * 18 + (weekNum * 0.8)), 
+            volunteers: Math.floor(11 + Math.random() * 3), 
+            kids: Math.floor(28 + Math.random() * 10), 
+            decisions: Math.floor(Math.random() * 2), 
+            newMembers: Math.floor(Math.random() * 2) 
+          },
+          modena: { 
+            giving: Math.floor(2100 + Math.random() * 600 + (weekNum * 6)), 
+            adults: Math.floor(65 + Math.random() * 15 + (weekNum * 0.6)), 
+            volunteers: Math.floor(9 + Math.random() * 3), 
+            kids: Math.floor(22 + Math.random() * 8), 
+            decisions: Math.floor(Math.random() * 1), 
+            newMembers: Math.floor(Math.random() * 2) 
+          },
+          chicago: { 
+            giving: Math.floor(7500 + Math.random() * 2200 + (weekNum * 22)), 
+            adults: Math.floor(175 + Math.random() * 45 + (weekNum * 2.2)), 
+            volunteers: Math.floor(26 + Math.random() * 8), 
+            kids: Math.floor(65 + Math.random() * 22), 
+            decisions: Math.floor(Math.random() * 4), 
+            newMembers: Math.floor(Math.random() * 5) 
+          },
+          honolulu: { 
+            giving: Math.floor(2400 + Math.random() * 700 + (weekNum * 7)), 
+            adults: Math.floor(72 + Math.random() * 16 + (weekNum * 0.7)), 
+            volunteers: Math.floor(10 + Math.random() * 3), 
+            kids: Math.floor(24 + Math.random() * 9), 
+            decisions: Math.floor(Math.random() * 2), 
+            newMembers: Math.floor(Math.random() * 2) 
+          },
+          dubai: { 
+            giving: Math.floor(4600 + Math.random() * 1400 + (weekNum * 14)), 
+            adults: Math.floor(105 + Math.random() * 28 + (weekNum * 1.4)), 
+            volunteers: Math.floor(15 + Math.random() * 5), 
+            kids: Math.floor(35 + Math.random() * 13), 
+            decisions: Math.floor(Math.random() * 2), 
+            newMembers: Math.floor(Math.random() * 3) 
+          },
+          saigon: { 
+            giving: Math.floor(3800 + Math.random() * 1100 + (weekNum * 11)), 
+            adults: Math.floor(118 + Math.random() * 30 + (weekNum * 1.1)), 
+            volunteers: Math.floor(17 + Math.random() * 5), 
+            kids: Math.floor(42 + Math.random() * 15), 
+            decisions: Math.floor(Math.random() * 3), 
+            newMembers: Math.floor(Math.random() * 3) 
+          },
+          london: { 
+            giving: Math.floor(7200 + Math.random() * 2000 + (weekNum * 20)), 
+            adults: Math.floor(168 + Math.random() * 42 + (weekNum * 2)), 
+            volunteers: Math.floor(24 + Math.random() * 7), 
+            kids: Math.floor(58 + Math.random() * 20), 
+            decisions: Math.floor(Math.random() * 3), 
+            newMembers: Math.floor(Math.random() * 4) 
+          },
+          westLondon: { 
+            giving: Math.floor(3900 + Math.random() * 1200 + (weekNum * 12)), 
+            adults: Math.floor(98 + Math.random() * 25 + (weekNum * 1.2)), 
+            volunteers: Math.floor(14 + Math.random() * 4), 
+            kids: Math.floor(32 + Math.random() * 12), 
+            decisions: Math.floor(Math.random() * 2), 
+            newMembers: Math.floor(Math.random() * 3) 
+          },
+          madrid: { 
+            giving: Math.floor(3200 + Math.random() * 900 + (weekNum * 9)), 
+            adults: Math.floor(88 + Math.random() * 20 + (weekNum * 0.9)), 
+            volunteers: Math.floor(12 + Math.random() * 4), 
+            kids: Math.floor(28 + Math.random() * 10), 
+            decisions: Math.floor(Math.random() * 2), 
+            newMembers: Math.floor(Math.random() * 2) 
+          },
+          frankfurt: { 
+            giving: Math.floor(2800 + Math.random() * 800 + (weekNum * 8)), 
+            adults: Math.floor(78 + Math.random() * 18 + (weekNum * 0.8)), 
+            volunteers: Math.floor(10 + Math.random() * 3), 
+            kids: Math.floor(25 + Math.random() * 9), 
+            decisions: Math.floor(Math.random() * 1), 
+            newMembers: Math.floor(Math.random() * 2) 
+          }
+        };
+      }),
+      ...allLocationWeeklyData // Our existing 12 weeks of data
+    ];
+
+    // Filter by timeframe
+    let filteredWeeks;
+    switch (selectedTimeframe) {
+      case 'Last 4 Weeks':
+        filteredWeeks = allWeeks.slice(-4);
+        break;
+      case 'Last 12 Weeks':
+        filteredWeeks = allWeeks.slice(-12);
+        break;
+      case 'Last 6 Months':
+        filteredWeeks = allWeeks.slice(-24); // ~6 months of weekly data
+        break;
+      case 'Last Year':
+        filteredWeeks = allWeeks.slice(-52); // Full year of weekly data
+        break;
+      default:
+        filteredWeeks = allWeeks.slice(-12);
+    }
+
     if (selectedLocation === 'All Locations') {
       // Aggregate all locations
-      return allLocationWeeklyData.map(weekData => {
+      return filteredWeeks.map(weekData => {
         const aggregated = {
           week: weekData.week,
           giving: 0,
@@ -143,7 +314,7 @@ export default function ChurchDashboard() {
     } else {
       // Filter for specific location
       const locationKey = getLocationKey(selectedLocation);
-      return allLocationWeeklyData.map(weekData => ({
+      return filteredWeeks.map(weekData => ({
         week: weekData.week,
         ...weekData[locationKey]
       }));
@@ -158,20 +329,21 @@ export default function ChurchDashboard() {
     totalAttendance: week.adults + week.volunteers + week.kids
   }));
 
-  // Calculate 12-week averages
-  const calculate12WeekAverage = (dataArray, field) => {
+  // Calculate averages based on timeframe
+  const calculateAverages = (dataArray, field) => {
+    if (dataArray.length === 0) return 0;
     const sum = dataArray.reduce((acc, week) => acc + week[field], 0);
     return sum / dataArray.length;
   };
 
   const averages = {
-    giving: calculate12WeekAverage(weeklyData, 'giving'),
-    adults: calculate12WeekAverage(weeklyData, 'adults'),
-    volunteers: calculate12WeekAverage(weeklyData, 'volunteers'),
-    kids: calculate12WeekAverage(weeklyData, 'kids'),
-    decisions: calculate12WeekAverage(weeklyData, 'decisions'),
-    newMembers: calculate12WeekAverage(weeklyData, 'newMembers'),
-    totalAttendance: calculate12WeekAverage(weeklyDataWithTotals, 'totalAttendance')
+    giving: calculateAverages(weeklyData, 'giving'),
+    adults: calculateAverages(weeklyData, 'adults'),
+    volunteers: calculateAverages(weeklyData, 'volunteers'),
+    kids: calculateAverages(weeklyData, 'kids'),
+    decisions: calculateAverages(weeklyData, 'decisions'),
+    newMembers: calculateAverages(weeklyData, 'newMembers'),
+    totalAttendance: calculateAverages(weeklyDataWithTotals, 'totalAttendance')
   };
 
   // Get current and previous week stats
@@ -276,7 +448,7 @@ export default function ChurchDashboard() {
         <p className={`text-3xl font-bold ${change.color}`}>{prefix}{current.toLocaleString()}{suffix}</p>
         <p className="text-sm text-gray-500 mt-1">vs. last week: {prefix}{previous.toLocaleString()}{suffix}</p>
         {average !== null && (
-          <p className="text-xs text-gray-400 mt-1">12-week avg: {prefix}{Math.round(average).toLocaleString()}{suffix}</p>
+          <p className="text-xs text-gray-400 mt-1">{selectedTimeframe.toLowerCase()} avg: {prefix}{Math.round(average).toLocaleString()}{suffix}</p>
         )}
       </div>
     );
@@ -295,8 +467,8 @@ export default function ChurchDashboard() {
           </h1>
           <p className="text-gray-600">
             {selectedLocation === 'All Locations' 
-              ? 'Multi-location insights and trends' 
-              : `${selectedLocation} location insights and trends`
+              ? `Multi-location insights and trends (${selectedTimeframe})` 
+              : `${selectedLocation} location insights and trends (${selectedTimeframe})`
             }
           </p>
         </div>
@@ -412,7 +584,7 @@ export default function ChurchDashboard() {
           {/* Giving Trends */}
           <div className="bg-white p-6 rounded-lg shadow-md">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">
-              Giving Trends {selectedLocation !== 'All Locations' && `- ${selectedLocation}`}
+              Giving Trends {selectedLocation !== 'All Locations' && `- ${selectedLocation}`} ({selectedTimeframe})
             </h3>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={weeklyData}>
@@ -428,7 +600,7 @@ export default function ChurchDashboard() {
           {/* Attendance Trends */}
           <div className="bg-white p-6 rounded-lg shadow-md">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">
-              Attendance Trends {selectedLocation !== 'All Locations' && `- ${selectedLocation}`}
+              Attendance Trends {selectedLocation !== 'All Locations' && `- ${selectedLocation}`} ({selectedTimeframe})
             </h3>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={weeklyDataWithTotals}>
@@ -480,7 +652,7 @@ export default function ChurchDashboard() {
           {/* Ministry Impact */}
           <div className="bg-white p-6 rounded-lg shadow-md">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">
-              Ministry Impact {selectedLocation !== 'All Locations' && `- ${selectedLocation}`}
+              Ministry Impact {selectedLocation !== 'All Locations' && `- ${selectedLocation}`} ({selectedTimeframe})
             </h3>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={weeklyDataWithTotals}>

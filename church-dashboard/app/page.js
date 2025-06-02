@@ -536,7 +536,7 @@ export default function ChurchDashboard() {
     };
   };
 
-  const StatCard = ({ title, current, previous, icon: Icon, color, prefix = '', suffix = '', average = null }) => {
+  const StatCard = ({ title, current, previous, icon: Icon, color, prefix = '', suffix = '', average = null, periodLabel }) => {
     const change = calculateChange(current, previous);
     return (
       <div className="bg-white p-6 rounded-lg shadow-md border">
@@ -617,6 +617,7 @@ export default function ChurchDashboard() {
             color="bg-green-500"
             prefix="$"
             average={averages.giving}
+            periodLabel={periodLabel}
           />
           <StatCard
             title="Total Attendance"
@@ -625,6 +626,7 @@ export default function ChurchDashboard() {
             icon={Users}
             color="bg-slate-600"
             average={averages.totalAttendance}
+            periodLabel={periodLabel}
           />
           <StatCard
             title="Adult Attendance"
@@ -633,6 +635,7 @@ export default function ChurchDashboard() {
             icon={Users}
             color="bg-blue-500"
             average={averages.adults}
+            periodLabel={periodLabel}
           />
           <StatCard
             title="Volunteers"
@@ -641,6 +644,7 @@ export default function ChurchDashboard() {
             icon={Heart}
             color="bg-purple-500"
             average={averages.volunteers}
+            periodLabel={periodLabel}
           />
           <StatCard
             title="Kids Attendance"
@@ -649,6 +653,7 @@ export default function ChurchDashboard() {
             icon={Users}
             color="bg-orange-500"
             average={averages.kids}
+            periodLabel={periodLabel}
           />
           <StatCard
             title="Altar Decisions"
@@ -657,6 +662,7 @@ export default function ChurchDashboard() {
             icon={Heart}
             color="bg-red-500"
             average={averages.decisions}
+            periodLabel={periodLabel}
           />
           <StatCard
             title="New Members"
@@ -665,6 +671,7 @@ export default function ChurchDashboard() {
             icon={UserPlus}
             color="bg-indigo-500"
             average={averages.newMembers}
+            periodLabel={periodLabel}
           />
           <StatCard
             title="Royal Kids %"
@@ -673,6 +680,7 @@ export default function ChurchDashboard() {
             icon={Users}
             color="bg-pink-500"
             suffix="%"
+            periodLabel={periodLabel}
           />
           <StatCard
             title="Altar Decisions %"
@@ -681,6 +689,7 @@ export default function ChurchDashboard() {
             icon={Heart}
             color="bg-emerald-500"
             suffix="%"
+            periodLabel={periodLabel}
           />
         </div>
 

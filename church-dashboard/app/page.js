@@ -346,32 +346,137 @@ export default function ChurchDashboard() {
     totalAttendance: calculateAverages(weeklyDataWithTotals, 'totalAttendance')
   };
 
-  // Get current and previous week stats
-  const currentWeek = weeklyData[weeklyData.length - 1] || { giving: 0, adults: 0, volunteers: 0, kids: 0, decisions: 0, newMembers: 0 };
-  const previousWeek = weeklyData[weeklyData.length - 2] || { giving: 0, adults: 0, volunteers: 0, kids: 0, decisions: 0, newMembers: 0 };
+  // Get current and previous period stats based on timeframe
+  const getCurrentAndPreviousPeriodStats = () => {
+    if (weeklyData.length === 0) {
+      return {
+        current: { giving: 0, adults: 0, volunteers: 0, kids: 0, decisions: 0, newMembers: 0 },
+        previous: { giving: 0, adults: 0, volunteers: 0, kids: 0, decisions: 0, newMembers: 0 },
+        periodLabel: 'period'
+      };
+    }
+
+    let current, previous, periodLabel;
+
+    switch (selectedTimeframe) {
+      case 'Last 4 Weeks':
+        // Compare last 2 weeks vs previous 2 weeks
+        const lastTwoWeeks = weeklyData.slice(-2);
+        const prevTwoWeeks = weeklyData.slice(-4, -2);
+        
+        current = {
+          giving: lastTwoWeeks.reduce((sum, week) => sum + week.giving, 0) / lastTwoWeeks.length,
+          adults: lastTwoWeeks.reduce((sum, week) => sum + week.adults, 0) / lastTwoWeeks.length,
+          volunteers: lastTwoWeeks.reduce((sum, week) => sum + week.volunteers, 0) / lastTwoWeeks.length,
+          kids: lastTwoWeeks.reduce((sum, week) => sum + week.kids, 0) / lastTwoWeeks.length,
+          decisions: lastTwoWeeks.reduce((sum, week) => sum + week.decisions, 0) / lastTwoWeeks.length,
+          newMembers: lastTwoWeeks.reduce((sum, week) => sum + week.newMembers, 0) / lastTwoWeeks.length
+        };
+        
+        previous = prevTwoWeeks.length > 0 ? {
+          giving: prevTwoWeeks.reduce((sum, week) => sum + week.giving, 0) / prevTwoWeeks.length,
+          adults: prevTwoWeeks.reduce((sum, week) => sum + week.adults, 0) / prevTwoWeeks.length,
+          volunteers: prevTwoWeeks.reduce((sum, week) => sum + week.volunteers, 0) / prevTwoWeeks.length,
+          kids: prevTwoWeeks.reduce((sum, week) => sum + week.kids, 0) / prevTwoWeeks.length,
+          decisions: prevTwoWeeks.reduce((sum, week) => sum + week.decisions, 0) / prevTwoWeeks.length,
+          newMembers: prevTwoWeeks.reduce((sum, week) => sum + week.newMembers, 0) / prevTwoWeeks.length
+        } : current;
+        
+        periodLabel = 'vs. prev 2 weeks avg';
+        break;
+
+      case 'Last 12 Weeks':
+        // Compare last week vs previous week (original behavior)
+        current = weeklyData[weeklyData.length - 1] || { giving: 0, adults: 0, volunteers: 0, kids: 0, decisions: 0, newMembers: 0 };
+        previous = weeklyData[weeklyData.length - 2] || current;
+        periodLabel = 'vs. last week';
+        break;
+
+      case 'Last 6 Months':
+        // Compare last 4 weeks vs previous 4 weeks
+        const lastFourWeeks = weeklyData.slice(-4);
+        const prevFourWeeks = weeklyData.slice(-8, -4);
+        
+        current = {
+          giving: lastFourWeeks.reduce((sum, week) => sum + week.giving, 0) / lastFourWeeks.length,
+          adults: lastFourWeeks.reduce((sum, week) => sum + week.adults, 0) / lastFourWeeks.length,
+          volunteers: lastFourWeeks.reduce((sum, week) => sum + week.volunteers, 0) / lastFourWeeks.length,
+          kids: lastFourWeeks.reduce((sum, week) => sum + week.kids, 0) / lastFourWeeks.length,
+          decisions: lastFourWeeks.reduce((sum, week) => sum + week.decisions, 0) / lastFourWeeks.length,
+          newMembers: lastFourWeeks.reduce((sum, week) => sum + week.newMembers, 0) / lastFourWeeks.length
+        };
+        
+        previous = prevFourWeeks.length > 0 ? {
+          giving: prevFourWeeks.reduce((sum, week) => sum + week.giving, 0) / prevFourWeeks.length,
+          adults: prevFourWeeks.reduce((sum, week) => sum + week.adults, 0) / prevFourWeeks.length,
+          volunteers: prevFourWeeks.reduce((sum, week) => sum + week.volunteers, 0) / prevFourWeeks.length,
+          kids: prevFourWeeks.reduce((sum, week) => sum + week.kids, 0) / prevFourWeeks.length,
+          decisions: prevFourWeeks.reduce((sum, week) => sum + week.decisions, 0) / prevFourWeeks.length,
+          newMembers: prevFourWeeks.reduce((sum, week) => sum + week.newMembers, 0) / prevFourWeeks.length
+        } : current;
+        
+        periodLabel = 'vs. prev 4 weeks avg';
+        break;
+
+      case 'Last Year':
+        // Compare last 8 weeks vs previous 8 weeks
+        const lastEightWeeks = weeklyData.slice(-8);
+        const prevEightWeeks = weeklyData.slice(-16, -8);
+        
+        current = {
+          giving: lastEightWeeks.reduce((sum, week) => sum + week.giving, 0) / lastEightWeeks.length,
+          adults: lastEightWeeks.reduce((sum, week) => sum + week.adults, 0) / lastEightWeeks.length,
+          volunteers: lastEightWeeks.reduce((sum, week) => sum + week.volunteers, 0) / lastEightWeeks.length,
+          kids: lastEightWeeks.reduce((sum, week) => sum + week.kids, 0) / lastEightWeeks.length,
+          decisions: lastEightWeeks.reduce((sum, week) => sum + week.decisions, 0) / lastEightWeeks.length,
+          newMembers: lastEightWeeks.reduce((sum, week) => sum + week.newMembers, 0) / lastEightWeeks.length
+        };
+        
+        previous = prevEightWeeks.length > 0 ? {
+          giving: prevEightWeeks.reduce((sum, week) => sum + week.giving, 0) / prevEightWeeks.length,
+          adults: prevEightWeeks.reduce((sum, week) => sum + week.adults, 0) / prevEightWeeks.length,
+          volunteers: prevEightWeeks.reduce((sum, week) => sum + week.volunteers, 0) / prevEightWeeks.length,
+          kids: prevEightWeeks.reduce((sum, week) => sum + week.kids, 0) / prevEightWeeks.length,
+          decisions: prevEightWeeks.reduce((sum, week) => sum + week.decisions, 0) / prevEightWeeks.length,
+          newMembers: prevEightWeeks.reduce((sum, week) => sum + week.newMembers, 0) / prevEightWeeks.length
+        } : current;
+        
+        periodLabel = 'vs. prev 8 weeks avg';
+        break;
+
+      default:
+        current = weeklyData[weeklyData.length - 1] || { giving: 0, adults: 0, volunteers: 0, kids: 0, decisions: 0, newMembers: 0 };
+        previous = weeklyData[weeklyData.length - 2] || current;
+        periodLabel = 'vs. last week';
+    }
+
+    return { current, previous, periodLabel };
+  };
+
+  const { current: currentPeriod, previous: previousPeriod, periodLabel } = getCurrentAndPreviousPeriodStats();
 
   const currentWeekStats = {
-    totalGiving: currentWeek.giving,
-    totalAttendance: currentWeek.adults,
-    totalVolunteers: currentWeek.volunteers,
-    totalKids: currentWeek.kids,
-    totalDecisions: currentWeek.decisions,
-    totalNewMembers: currentWeek.newMembers,
-    totalAllAttendance: currentWeek.adults + currentWeek.volunteers + currentWeek.kids,
-    royalKidsPercent: ((currentWeek.kids) / (currentWeek.adults + currentWeek.volunteers + currentWeek.kids)) * 100 || 0,
-    altarDecisionsPercent: ((currentWeek.decisions) / (currentWeek.adults + currentWeek.volunteers + currentWeek.kids)) * 100 || 0
+    totalGiving: Math.round(currentPeriod.giving),
+    totalAttendance: Math.round(currentPeriod.adults),
+    totalVolunteers: Math.round(currentPeriod.volunteers),
+    totalKids: Math.round(currentPeriod.kids),
+    totalDecisions: Math.round(currentPeriod.decisions),
+    totalNewMembers: Math.round(currentPeriod.newMembers),
+    totalAllAttendance: Math.round(currentPeriod.adults + currentPeriod.volunteers + currentPeriod.kids),
+    royalKidsPercent: ((currentPeriod.kids) / (currentPeriod.adults + currentPeriod.volunteers + currentPeriod.kids)) * 100 || 0,
+    altarDecisionsPercent: ((currentPeriod.decisions) / (currentPeriod.adults + currentPeriod.volunteers + currentPeriod.kids)) * 100 || 0
   };
 
   const previousWeekStats = {
-    totalGiving: previousWeek.giving,
-    totalAttendance: previousWeek.adults,
-    totalVolunteers: previousWeek.volunteers,
-    totalKids: previousWeek.kids,
-    totalDecisions: previousWeek.decisions,
-    totalNewMembers: previousWeek.newMembers,
-    totalAllAttendance: previousWeek.adults + previousWeek.volunteers + previousWeek.kids,
-    royalKidsPercent: ((previousWeek.kids) / (previousWeek.adults + previousWeek.volunteers + previousWeek.kids)) * 100 || 0,
-    altarDecisionsPercent: ((previousWeek.decisions) / (previousWeek.adults + previousWeek.volunteers + previousWeek.kids)) * 100 || 0
+    totalGiving: Math.round(previousPeriod.giving),
+    totalAttendance: Math.round(previousPeriod.adults),
+    totalVolunteers: Math.round(previousPeriod.volunteers),
+    totalKids: Math.round(previousPeriod.kids),
+    totalDecisions: Math.round(previousPeriod.decisions),
+    totalNewMembers: Math.round(previousPeriod.newMembers),
+    totalAllAttendance: Math.round(previousPeriod.adults + previousPeriod.volunteers + previousPeriod.kids),
+    royalKidsPercent: ((previousPeriod.kids) / (previousPeriod.adults + previousPeriod.volunteers + previousPeriod.kids)) * 100 || 0,
+    altarDecisionsPercent: ((previousPeriod.decisions) / (previousPeriod.adults + previousPeriod.volunteers + previousPeriod.kids)) * 100 || 0
   };
 
   // Location breakdown data - show individual locations when "All Locations" selected
@@ -446,7 +551,7 @@ export default function ChurchDashboard() {
         </div>
         <h3 className="text-lg font-semibold text-gray-700 mb-1">{title}</h3>
         <p className={`text-3xl font-bold ${change.color}`}>{prefix}{current.toLocaleString()}{suffix}</p>
-        <p className="text-sm text-gray-500 mt-1">vs. last week: {prefix}{previous.toLocaleString()}{suffix}</p>
+        <p className="text-sm text-gray-500 mt-1">{periodLabel}: {prefix}{previous.toLocaleString()}{suffix}</p>
         {average !== null && (
           <p className="text-xs text-gray-400 mt-1">{selectedTimeframe.toLowerCase()} avg: {prefix}{Math.round(average).toLocaleString()}{suffix}</p>
         )}

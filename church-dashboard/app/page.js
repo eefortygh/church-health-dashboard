@@ -112,157 +112,143 @@ export default function ChurchDashboard() {
 
   // Function to get filtered data based on selected location and timeframe
   const getFilteredData = () => {
-    // First get all available data (we'll expand this with more weeks/months)
-    const allWeeks = [
-      // Adding more historical data for different timeframes
-      { 
-        week: 'Week -36', 
-        mountainView: { giving: 6800, adults: 155, volunteers: 22, kids: 58, decisions: 1, newMembers: 2 },
-        sanJose: { giving: 6200, adults: 148, volunteers: 20, kids: 52, decisions: 1, newMembers: 1 },
-        sanFrancisco: { giving: 5800, adults: 132, volunteers: 18, kids: 45, decisions: 0, newMembers: 1 },
-        oakland: { giving: 4200, adults: 115, volunteers: 16, kids: 38, decisions: 1, newMembers: 1 },
-        rome: { giving: 3400, adults: 98, volunteers: 13, kids: 32, decisions: 0, newMembers: 0 },
-        milan: { giving: 2800, adults: 82, volunteers: 11, kids: 28, decisions: 0, newMembers: 0 },
-        modena: { giving: 2100, adults: 65, volunteers: 9, kids: 22, decisions: 0, newMembers: 0 },
-        chicago: { giving: 7500, adults: 175, volunteers: 26, kids: 65, decisions: 1, newMembers: 3 },
-        honolulu: { giving: 2400, adults: 72, volunteers: 10, kids: 24, decisions: 0, newMembers: 1 },
-        dubai: { giving: 4600, adults: 105, volunteers: 15, kids: 35, decisions: 1, newMembers: 1 },
-        saigon: { giving: 3800, adults: 118, volunteers: 17, kids: 42, decisions: 1, newMembers: 1 },
-        london: { giving: 7200, adults: 168, volunteers: 24, kids: 58, decisions: 1, newMembers: 2 },
-        westLondon: { giving: 3900, adults: 98, volunteers: 14, kids: 32, decisions: 0, newMembers: 1 },
-        madrid: { giving: 3200, adults: 88, volunteers: 12, kids: 28, decisions: 0, newMembers: 0 },
-        frankfurt: { giving: 2800, adults: 78, volunteers: 10, kids: 25, decisions: 0, newMembers: 0 }
-      },
-      // Adding more weeks... (I'll add several for demonstration)
-      ...Array.from({ length: 40 }, (_, i) => {
-        const weekNum = -35 + i;
-        const weekLabel = weekNum <= 0 ? `Week ${weekNum}` : `Week ${weekNum}`;
-        return {
+    // Generate complete historical data for all locations
+    const generateCompleteData = () => {
+      const completeData = [];
+      
+      // Generate 52 weeks of data (full year)
+      for (let i = -51; i <= 0; i++) {
+        const weekLabel = i === 0 ? 'Current Week' : (i < 0 ? `Week ${i}` : `Week ${i}`);
+        
+        completeData.push({
           week: weekLabel,
           mountainView: { 
-            giving: Math.floor(6800 + Math.random() * 2000 + (weekNum * 20)), 
-            adults: Math.floor(155 + Math.random() * 40 + (weekNum * 2)), 
+            giving: Math.floor(7000 + Math.random() * 2000 + (i * 15)), 
+            adults: Math.floor(160 + Math.random() * 40 + (i * 1.5)), 
             volunteers: Math.floor(22 + Math.random() * 8), 
-            kids: Math.floor(58 + Math.random() * 20), 
+            kids: Math.floor(60 + Math.random() * 20), 
             decisions: Math.floor(Math.random() * 3), 
             newMembers: Math.floor(Math.random() * 4) 
           },
           sanJose: { 
-            giving: Math.floor(6200 + Math.random() * 1800 + (weekNum * 18)), 
-            adults: Math.floor(148 + Math.random() * 35 + (weekNum * 1.8)), 
+            giving: Math.floor(6500 + Math.random() * 1800 + (i * 14)), 
+            adults: Math.floor(150 + Math.random() * 35 + (i * 1.4)), 
             volunteers: Math.floor(20 + Math.random() * 7), 
-            kids: Math.floor(52 + Math.random() * 18), 
+            kids: Math.floor(55 + Math.random() * 18), 
             decisions: Math.floor(Math.random() * 3), 
             newMembers: Math.floor(Math.random() * 4) 
           },
           sanFrancisco: { 
-            giving: Math.floor(5800 + Math.random() * 1600 + (weekNum * 16)), 
-            adults: Math.floor(132 + Math.random() * 30 + (weekNum * 1.6)), 
+            giving: Math.floor(6000 + Math.random() * 1600 + (i * 13)), 
+            adults: Math.floor(140 + Math.random() * 30 + (i * 1.3)), 
             volunteers: Math.floor(18 + Math.random() * 6), 
-            kids: Math.floor(45 + Math.random() * 16), 
+            kids: Math.floor(50 + Math.random() * 16), 
             decisions: Math.floor(Math.random() * 2), 
             newMembers: Math.floor(Math.random() * 3) 
           },
           oakland: { 
-            giving: Math.floor(4200 + Math.random() * 1200 + (weekNum * 12)), 
-            adults: Math.floor(115 + Math.random() * 25 + (weekNum * 1.2)), 
+            giving: Math.floor(4500 + Math.random() * 1200 + (i * 10)), 
+            adults: Math.floor(120 + Math.random() * 25 + (i * 1)), 
             volunteers: Math.floor(16 + Math.random() * 5), 
-            kids: Math.floor(38 + Math.random() * 14), 
+            kids: Math.floor(40 + Math.random() * 14), 
             decisions: Math.floor(Math.random() * 2), 
             newMembers: Math.floor(Math.random() * 3) 
           },
           rome: { 
-            giving: Math.floor(3400 + Math.random() * 1000 + (weekNum * 10)), 
-            adults: Math.floor(98 + Math.random() * 22 + (weekNum * 1)), 
+            giving: Math.floor(3800 + Math.random() * 1000 + (i * 8)), 
+            adults: Math.floor(105 + Math.random() * 22 + (i * 0.8)), 
             volunteers: Math.floor(13 + Math.random() * 4), 
-            kids: Math.floor(32 + Math.random() * 12), 
+            kids: Math.floor(35 + Math.random() * 12), 
             decisions: Math.floor(Math.random() * 2), 
             newMembers: Math.floor(Math.random() * 2) 
           },
           milan: { 
-            giving: Math.floor(2800 + Math.random() * 800 + (weekNum * 8)), 
-            adults: Math.floor(82 + Math.random() * 18 + (weekNum * 0.8)), 
+            giving: Math.floor(3200 + Math.random() * 800 + (i * 7)), 
+            adults: Math.floor(90 + Math.random() * 18 + (i * 0.7)), 
             volunteers: Math.floor(11 + Math.random() * 3), 
-            kids: Math.floor(28 + Math.random() * 10), 
+            kids: Math.floor(30 + Math.random() * 10), 
             decisions: Math.floor(Math.random() * 2), 
             newMembers: Math.floor(Math.random() * 2) 
           },
           modena: { 
-            giving: Math.floor(2100 + Math.random() * 600 + (weekNum * 6)), 
-            adults: Math.floor(65 + Math.random() * 15 + (weekNum * 0.6)), 
+            giving: Math.floor(2500 + Math.random() * 600 + (i * 5)), 
+            adults: Math.floor(75 + Math.random() * 15 + (i * 0.5)), 
             volunteers: Math.floor(9 + Math.random() * 3), 
-            kids: Math.floor(22 + Math.random() * 8), 
+            kids: Math.floor(25 + Math.random() * 8), 
             decisions: Math.floor(Math.random() * 1), 
             newMembers: Math.floor(Math.random() * 2) 
           },
           chicago: { 
-            giving: Math.floor(7500 + Math.random() * 2200 + (weekNum * 22)), 
-            adults: Math.floor(175 + Math.random() * 45 + (weekNum * 2.2)), 
+            giving: Math.floor(8000 + Math.random() * 2200 + (i * 18)), 
+            adults: Math.floor(190 + Math.random() * 45 + (i * 1.8)), 
             volunteers: Math.floor(26 + Math.random() * 8), 
-            kids: Math.floor(65 + Math.random() * 22), 
+            kids: Math.floor(70 + Math.random() * 22), 
             decisions: Math.floor(Math.random() * 4), 
             newMembers: Math.floor(Math.random() * 5) 
           },
           honolulu: { 
-            giving: Math.floor(2400 + Math.random() * 700 + (weekNum * 7)), 
-            adults: Math.floor(72 + Math.random() * 16 + (weekNum * 0.7)), 
+            giving: Math.floor(2800 + Math.random() * 700 + (i * 6)), 
+            adults: Math.floor(80 + Math.random() * 16 + (i * 0.6)), 
             volunteers: Math.floor(10 + Math.random() * 3), 
-            kids: Math.floor(24 + Math.random() * 9), 
+            kids: Math.floor(28 + Math.random() * 9), 
             decisions: Math.floor(Math.random() * 2), 
             newMembers: Math.floor(Math.random() * 2) 
           },
           dubai: { 
-            giving: Math.floor(4600 + Math.random() * 1400 + (weekNum * 14)), 
-            adults: Math.floor(105 + Math.random() * 28 + (weekNum * 1.4)), 
+            giving: Math.floor(5000 + Math.random() * 1400 + (i * 12)), 
+            adults: Math.floor(115 + Math.random() * 28 + (i * 1.2)), 
             volunteers: Math.floor(15 + Math.random() * 5), 
-            kids: Math.floor(35 + Math.random() * 13), 
+            kids: Math.floor(40 + Math.random() * 13), 
             decisions: Math.floor(Math.random() * 2), 
             newMembers: Math.floor(Math.random() * 3) 
           },
           saigon: { 
-            giving: Math.floor(3800 + Math.random() * 1100 + (weekNum * 11)), 
-            adults: Math.floor(118 + Math.random() * 30 + (weekNum * 1.1)), 
+            giving: Math.floor(4200 + Math.random() * 1100 + (i * 9)), 
+            adults: Math.floor(130 + Math.random() * 30 + (i * 0.9)), 
             volunteers: Math.floor(17 + Math.random() * 5), 
-            kids: Math.floor(42 + Math.random() * 15), 
+            kids: Math.floor(45 + Math.random() * 15), 
             decisions: Math.floor(Math.random() * 3), 
             newMembers: Math.floor(Math.random() * 3) 
           },
           london: { 
-            giving: Math.floor(7200 + Math.random() * 2000 + (weekNum * 20)), 
-            adults: Math.floor(168 + Math.random() * 42 + (weekNum * 2)), 
+            giving: Math.floor(7500 + Math.random() * 2000 + (i * 16)), 
+            adults: Math.floor(175 + Math.random() * 42 + (i * 1.6)), 
             volunteers: Math.floor(24 + Math.random() * 7), 
-            kids: Math.floor(58 + Math.random() * 20), 
+            kids: Math.floor(65 + Math.random() * 20), 
             decisions: Math.floor(Math.random() * 3), 
             newMembers: Math.floor(Math.random() * 4) 
           },
           westLondon: { 
-            giving: Math.floor(3900 + Math.random() * 1200 + (weekNum * 12)), 
-            adults: Math.floor(98 + Math.random() * 25 + (weekNum * 1.2)), 
+            giving: Math.floor(4300 + Math.random() * 1200 + (i * 10)), 
+            adults: Math.floor(110 + Math.random() * 25 + (i * 1)), 
             volunteers: Math.floor(14 + Math.random() * 4), 
-            kids: Math.floor(32 + Math.random() * 12), 
+            kids: Math.floor(38 + Math.random() * 12), 
             decisions: Math.floor(Math.random() * 2), 
             newMembers: Math.floor(Math.random() * 3) 
           },
           madrid: { 
-            giving: Math.floor(3200 + Math.random() * 900 + (weekNum * 9)), 
-            adults: Math.floor(88 + Math.random() * 20 + (weekNum * 0.9)), 
+            giving: Math.floor(3600 + Math.random() * 900 + (i * 8)), 
+            adults: Math.floor(95 + Math.random() * 20 + (i * 0.8)), 
             volunteers: Math.floor(12 + Math.random() * 4), 
-            kids: Math.floor(28 + Math.random() * 10), 
+            kids: Math.floor(32 + Math.random() * 10), 
             decisions: Math.floor(Math.random() * 2), 
             newMembers: Math.floor(Math.random() * 2) 
           },
           frankfurt: { 
-            giving: Math.floor(2800 + Math.random() * 800 + (weekNum * 8)), 
-            adults: Math.floor(78 + Math.random() * 18 + (weekNum * 0.8)), 
+            giving: Math.floor(3000 + Math.random() * 800 + (i * 7)), 
+            adults: Math.floor(85 + Math.random() * 18 + (i * 0.7)), 
             volunteers: Math.floor(10 + Math.random() * 3), 
-            kids: Math.floor(25 + Math.random() * 9), 
+            kids: Math.floor(28 + Math.random() * 9), 
             decisions: Math.floor(Math.random() * 1), 
             newMembers: Math.floor(Math.random() * 2) 
           }
-        };
-      }),
-      ...allLocationWeeklyData // Our existing 12 weeks of data
-    ];
+        });
+      }
+      
+      return completeData;
+    };
+
+    const allWeeks = generateCompleteData();
 
     // Filter by timeframe
     let filteredWeeks;
@@ -277,7 +263,7 @@ export default function ChurchDashboard() {
         filteredWeeks = allWeeks.slice(-24); // ~6 months of weekly data
         break;
       case 'Last Year':
-        filteredWeeks = allWeeks.slice(-52); // Full year of weekly data
+        filteredWeeks = allWeeks; // Full year of weekly data
         break;
       default:
         filteredWeeks = allWeeks.slice(-12);
@@ -300,12 +286,12 @@ export default function ChurchDashboard() {
         Object.keys(weekData).forEach(key => {
           if (key !== 'week') {
             const locationData = weekData[key];
-            aggregated.giving += locationData.giving;
-            aggregated.adults += locationData.adults;
-            aggregated.volunteers += locationData.volunteers;
-            aggregated.kids += locationData.kids;
-            aggregated.decisions += locationData.decisions;
-            aggregated.newMembers += locationData.newMembers;
+            aggregated.giving += locationData.giving || 0;
+            aggregated.adults += locationData.adults || 0;
+            aggregated.volunteers += locationData.volunteers || 0;
+            aggregated.kids += locationData.kids || 0;
+            aggregated.decisions += locationData.decisions || 0;
+            aggregated.newMembers += locationData.newMembers || 0;
           }
         });
 
@@ -314,10 +300,36 @@ export default function ChurchDashboard() {
     } else {
       // Filter for specific location
       const locationKey = getLocationKey(selectedLocation);
-      return filteredWeeks.map(weekData => ({
-        week: weekData.week,
-        ...weekData[locationKey]
-      }));
+      if (!locationKey) {
+        console.error('Invalid location:', selectedLocation);
+        return [];
+      }
+      
+      return filteredWeeks.map(weekData => {
+        const locationData = weekData[locationKey];
+        if (!locationData) {
+          console.error('No data for location:', locationKey, 'in week:', weekData.week);
+          return {
+            week: weekData.week,
+            giving: 0,
+            adults: 0,
+            volunteers: 0,
+            kids: 0,
+            decisions: 0,
+            newMembers: 0
+          };
+        }
+        
+        return {
+          week: weekData.week,
+          giving: locationData.giving || 0,
+          adults: locationData.adults || 0,
+          volunteers: locationData.volunteers || 0,
+          kids: locationData.kids || 0,
+          decisions: locationData.decisions || 0,
+          newMembers: locationData.newMembers || 0
+        };
+      });
     }
   };
 

@@ -4,12 +4,12 @@ import React, { useState } from 'react';
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { ChevronDown, TrendingUp, TrendingDown, Users, DollarSign, Heart, UserPlus, Calendar, MessageSquare } from 'lucide-react';
 
-export default function ChurchDashboard() {
+const ChurchDashboard = () => {
   const [selectedLocation, setSelectedLocation] = useState('All Locations');
   const [selectedTimeframe, setSelectedTimeframe] = useState('Last 12 Weeks');
 
   // Sample data for multiple locations
-  const locations = ['All Locations', 'Main Campus', 'North Campus', 'South Campus', 'Online Campus'];
+  const locations = ['All Locations', 'Mountain View', 'San Jose', 'San Francisco', 'Oakland', 'Rome', 'Milan', 'Modena', 'Chicago', 'Honolulu', 'Dubai', 'Saigon', 'London', 'West London', 'Madrid', 'Frankfurt'];
   
   const weeklyData = [
     { week: 'Week 1', giving: 12500, adults: 285, volunteers: 45, kids: 95, decisions: 3, newMembers: 8 },
@@ -49,42 +49,53 @@ export default function ChurchDashboard() {
   };
 
   const locationBreakdown = [
-    { name: 'Main Campus', attendance: 180, giving: 8500, color: '#8884d8' },
-    { name: 'North Campus', attendance: 95, giving: 4200, color: '#82ca9d' },
-    { name: 'South Campus', attendance: 87, giving: 3800, color: '#ffc658' },
-    { name: 'Online Campus', attendance: 165, giving: 2400, color: '#ff7300' }
+    { name: 'Mountain View', attendance: 180, giving: 8500, color: '#8884d8' },
+    { name: 'San Jose', attendance: 165, giving: 7200, color: '#82ca9d' },
+    { name: 'San Francisco', attendance: 145, giving: 6800, color: '#ffc658' },
+    { name: 'Oakland', attendance: 125, giving: 5500, color: '#ff7300' },
+    { name: 'Rome', attendance: 110, giving: 4200, color: '#8dd1e1' },
+    { name: 'Milan', attendance: 95, giving: 3800, color: '#d084d0' },
+    { name: 'Modena', attendance: 75, giving: 2900, color: '#ffb347' },
+    { name: 'Chicago', attendance: 200, giving: 9200, color: '#87ceeb' },
+    { name: 'Honolulu', attendance: 85, giving: 3200, color: '#98fb98' },
+    { name: 'Dubai', attendance: 120, giving: 5800, color: '#f0e68c' },
+    { name: 'Saigon', attendance: 135, giving: 4800, color: '#dda0dd' },
+    { name: 'London', attendance: 190, giving: 8800, color: '#20b2aa' },
+    { name: 'West London', attendance: 115, giving: 4900, color: '#f4a460' },
+    { name: 'Madrid', attendance: 105, giving: 4100, color: '#cd853f' },
+    { name: 'Frankfurt', attendance: 90, giving: 3600, color: '#4682b4' }
   ];
 
   // Sample data for attendance by location over time
   const attendanceByLocationData = [
-    { week: 'Week 1', mainCampus: 168, northCampus: 89, southCampus: 82, onlineCampus: 143 },
-    { week: 'Week 2', mainCampus: 162, northCampus: 85, southCampus: 78, onlineCampus: 135 },
-    { week: 'Week 3', mainCampus: 175, northCampus: 95, southCampus: 88, onlineCampus: 157 },
-    { week: 'Week 4', mainCampus: 184, northCampus: 102, southCampus: 92, onlineCampus: 162 },
-    { week: 'Week 5', mainCampus: 172, northCampus: 92, southCampus: 85, onlineCampus: 149 },
-    { week: 'Week 6', mainCampus: 182, northCampus: 98, southCampus: 91, onlineCampus: 169 },
-    { week: 'Week 7', mainCampus: 195, northCampus: 108, southCampus: 97, onlineCampus: 175 },
-    { week: 'Week 8', mainCampus: 178, northCampus: 96, southCampus: 87, onlineCampus: 155 },
-    { week: 'Week 9', mainCampus: 189, northCampus: 104, southCampus: 94, onlineCampus: 168 },
-    { week: 'Week 10', mainCampus: 155, northCampus: 82, southCampus: 76, onlineCampus: 132 },
-    { week: 'Week 11', mainCampus: 205, northCampus: 118, southCampus: 105, onlineCampus: 195 },
-    { week: 'Week 12', mainCampus: 195, northCampus: 112, southCampus: 98, onlineCampus: 181 }
+    { week: 'Week 1', mountainView: 168, sanJose: 162, sanFrancisco: 142, oakland: 122, rome: 108, milan: 92, modena: 72, chicago: 195, honolulu: 82, dubai: 118, saigon: 132, london: 185, westLondon: 112, madrid: 102, frankfurt: 88 },
+    { week: 'Week 2', mountainView: 162, sanJose: 158, sanFrancisco: 138, oakland: 118, rome: 105, milan: 88, modena: 70, chicago: 192, honolulu: 80, dubai: 115, saigon: 128, london: 182, westLondon: 108, madrid: 98, frankfurt: 85 },
+    { week: 'Week 3', mountainView: 175, sanJose: 168, sanFrancisco: 148, oakland: 128, rome: 112, milan: 98, modena: 78, chicago: 205, honolulu: 88, dubai: 125, saigon: 138, london: 195, westLondon: 118, madrid: 108, frankfurt: 95 },
+    { week: 'Week 4', mountainView: 184, sanJose: 175, sanFrancisco: 155, oakland: 135, rome: 118, milan: 105, modena: 82, chicago: 215, honolulu: 92, dubai: 132, saigon: 145, london: 205, westLondon: 125, madrid: 115, frankfurt: 102 },
+    { week: 'Week 5', mountainView: 172, sanJose: 165, sanFrancisco: 145, oakland: 125, rome: 110, milan: 95, modena: 75, chicago: 200, honolulu: 85, dubai: 120, saigon: 135, london: 190, westLondon: 115, madrid: 105, frankfurt: 90 },
+    { week: 'Week 6', mountainView: 180, sanJose: 170, sanFrancisco: 150, oakland: 130, rome: 115, milan: 100, modena: 80, chicago: 210, honolulu: 90, dubai: 128, saigon: 142, london: 200, westLondon: 120, madrid: 110, frankfurt: 95 },
+    { week: 'Week 7', mountainView: 195, sanJose: 185, sanFrancisco: 165, oakland: 145, rome: 125, milan: 110, modena: 88, chicago: 225, honolulu: 98, dubai: 140, saigon: 155, london: 215, westLondon: 135, madrid: 125, frankfurt: 108 },
+    { week: 'Week 8', mountainView: 178, sanJose: 168, sanFrancisco: 148, oakland: 128, rome: 112, milan: 98, modena: 78, chicago: 205, honolulu: 88, dubai: 125, saigon: 138, london: 195, westLondon: 118, madrid: 108, frankfurt: 95 },
+    { week: 'Week 9', mountainView: 189, sanJose: 178, sanFrancisco: 158, oakland: 138, rome: 120, milan: 105, modena: 85, chicago: 218, honolulu: 95, dubai: 135, saigon: 148, london: 208, westLondon: 128, madrid: 118, frankfurt: 102 },
+    { week: 'Week 10', mountainView: 155, sanJose: 145, sanFrancisco: 125, oakland: 105, rome: 95, milan: 82, modena: 65, chicago: 180, honolulu: 75, dubai: 110, saigon: 120, london: 170, westLondon: 100, madrid: 90, frankfurt: 78 },
+    { week: 'Week 11', mountainView: 205, sanJose: 195, sanFrancisco: 175, oakland: 155, rome: 135, milan: 120, modena: 98, chicago: 240, honolulu: 108, dubai: 150, saigon: 165, london: 225, westLondon: 145, madrid: 135, frankfurt: 118 },
+    { week: 'Week 12', mountainView: 195, sanJose: 185, sanFrancisco: 165, oakland: 145, rome: 125, milan: 110, modena: 88, chicago: 225, honolulu: 98, dubai: 140, saigon: 155, london: 215, westLondon: 135, madrid: 125, frankfurt: 108 }
   ];
 
   // Sample data for giving by location over time  
   const givingByLocationData = [
-    { week: 'Week 1', mainCampus: 7200, northCampus: 2800, southCampus: 1900, onlineCampus: 600 },
-    { week: 'Week 2', mainCampus: 6800, northCampus: 2600, southCampus: 1800, onlineCampus: 600 },
-    { week: 'Week 3', mainCampus: 7600, northCampus: 3100, southCampus: 2000, onlineCampus: 500 },
-    { week: 'Week 4', mainCampus: 8100, northCampus: 3300, southCampus: 2100, onlineCampus: 600 },
-    { week: 'Week 5', mainCampus: 7400, northCampus: 2900, southCampus: 1950, onlineCampus: 650 },
-    { week: 'Week 6', mainCampus: 7900, northCampus: 3200, southCampus: 2000, onlineCampus: 700 },
-    { week: 'Week 7', mainCampus: 8700, northCampus: 3600, southCampus: 2200, onlineCampus: 700 },
-    { week: 'Week 8', mainCampus: 7800, northCampus: 3100, southCampus: 2000, onlineCampus: 700 },
-    { week: 'Week 9', mainCampus: 8300, northCampus: 3400, southCampus: 2100, onlineCampus: 700 },
-    { week: 'Week 10', mainCampus: 7000, northCampus: 2700, southCampus: 1800, onlineCampus: 700 },
-    { week: 'Week 11', mainCampus: 9600, northCampus: 4000, southCampus: 2400, onlineCampus: 800 },
-    { week: 'Week 12', mainCampus: 9100, northCampus: 3800, southCampus: 2300, onlineCampus: 700 }
+    { week: 'Week 1', mountainView: 7200, sanJose: 6800, sanFrancisco: 6200, oakland: 4800, rome: 3800, milan: 3200, modena: 2400, chicago: 8200, honolulu: 2800, dubai: 5200, saigon: 4200, london: 7800, westLondon: 4400, madrid: 3600, frankfurt: 3200 },
+    { week: 'Week 2', mountainView: 6800, sanJose: 6400, sanFrancisco: 5800, oakland: 4500, rome: 3600, milan: 3000, modena: 2200, chicago: 7800, honolulu: 2600, dubai: 4900, saigon: 3900, london: 7400, westLondon: 4100, madrid: 3300, frankfurt: 2900 },
+    { week: 'Week 3', mountainView: 7600, sanJose: 7200, sanFrancisco: 6600, oakland: 5200, rome: 4100, milan: 3500, modena: 2700, chicago: 8800, honolulu: 3100, dubai: 5600, saigon: 4600, london: 8200, westLondon: 4700, madrid: 3900, frankfurt: 3500 },
+    { week: 'Week 4', mountainView: 8100, sanJose: 7700, sanFrancisco: 7100, oakland: 5600, rome: 4400, milan: 3800, modena: 2900, chicago: 9400, honolulu: 3300, dubai: 6000, saigon: 4900, london: 8800, westLondon: 5000, madrid: 4200, frankfurt: 3800 },
+    { week: 'Week 5', mountainView: 7400, sanJose: 7000, sanFrancisco: 6400, oakland: 5000, rome: 4000, milan: 3400, modena: 2600, chicago: 8600, honolulu: 3000, dubai: 5400, saigon: 4400, london: 8000, westLondon: 4500, madrid: 3700, frankfurt: 3300 },
+    { week: 'Week 6', mountainView: 7900, sanJose: 7500, sanFrancisco: 6900, oakland: 5400, rome: 4300, milan: 3700, modena: 2800, chicago: 9100, honolulu: 3200, dubai: 5800, saigon: 4700, london: 8500, westLondon: 4800, madrid: 4000, frankfurt: 3600 },
+    { week: 'Week 7', mountainView: 8700, sanJose: 8300, sanFrancisco: 7700, oakland: 6100, rome: 4800, milan: 4200, modena: 3200, chicago: 10200, honolulu: 3600, dubai: 6500, saigon: 5300, london: 9500, westLondon: 5400, madrid: 4500, frankfurt: 4100 },
+    { week: 'Week 8', mountainView: 7800, sanJose: 7400, sanFrancisco: 6800, oakland: 5300, rome: 4200, milan: 3600, modena: 2700, chicago: 8900, honolulu: 3100, dubai: 5700, saigon: 4600, london: 8300, westLondon: 4700, madrid: 3900, frankfurt: 3500 },
+    { week: 'Week 9', mountainView: 8300, sanJose: 7900, sanFrancisco: 7300, oakland: 5800, rome: 4600, milan: 4000, modena: 3000, chicago: 9600, honolulu: 3400, dubai: 6200, saigon: 5000, london: 8900, westLondon: 5100, madrid: 4200, frankfurt: 3800 },
+    { week: 'Week 10', mountainView: 7000, sanJose: 6600, sanFrancisco: 6000, oakland: 4700, rome: 3700, milan: 3200, modena: 2400, chicago: 7800, honolulu: 2700, dubai: 4900, saigon: 3900, london: 7400, westLondon: 4100, madrid: 3300, frankfurt: 2900 },
+    { week: 'Week 11', mountainView: 9600, sanJose: 9200, sanFrancisco: 8600, oakland: 6800, rome: 5400, milan: 4700, modena: 3600, chicago: 11800, honolulu: 4100, dubai: 7500, saigon: 6100, london: 10800, westLondon: 6200, madrid: 5100, frankfurt: 4600 },
+    { week: 'Week 12', mountainView: 9100, sanJose: 8700, sanFrancisco: 8100, oakland: 6400, rome: 5100, milan: 4400, modena: 3400, chicago: 11200, honolulu: 3900, dubai: 7100, saigon: 5700, london: 10200, westLondon: 5800, madrid: 4800, frankfurt: 4300 }
   ];
 
   const currentWeekStats = {
@@ -365,10 +376,14 @@ export default function ChurchDashboard() {
               <YAxis />
               <Tooltip />
               <Legend />
-              <Bar dataKey="mainCampus" stackId="a" fill="#8884d8" name="Main Campus" />
-              <Bar dataKey="northCampus" stackId="a" fill="#82ca9d" name="North Campus" />
-              <Bar dataKey="southCampus" stackId="a" fill="#ffc658" name="South Campus" />
-              <Bar dataKey="onlineCampus" stackId="a" fill="#ff7300" name="Online Campus" />
+              <Bar dataKey="mountainView" stackId="a" fill="#8884d8" name="Mountain View" />
+              <Bar dataKey="sanJose" stackId="a" fill="#82ca9d" name="San Jose" />
+              <Bar dataKey="sanFrancisco" stackId="a" fill="#ffc658" name="San Francisco" />
+              <Bar dataKey="oakland" stackId="a" fill="#ff7300" name="Oakland" />
+              <Bar dataKey="rome" stackId="a" fill="#e74c3c" name="Rome" />
+              <Bar dataKey="milan" stackId="a" fill="#d084d0" name="Milan" />
+              <Bar dataKey="modena" stackId="a" fill="#2ecc71" name="Modena" />
+              <Bar dataKey="chicago" stackId="a" fill="#3498db" name="Chicago" />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -383,10 +398,14 @@ export default function ChurchDashboard() {
               <YAxis tickFormatter={(value) => `$${(value / 1000).toFixed(0)}K`} />
               <Tooltip formatter={(value) => [`$${value.toLocaleString()}`, '']} />
               <Legend />
-              <Bar dataKey="mainCampus" stackId="b" fill="#16a34a" name="Main Campus" />
-              <Bar dataKey="northCampus" stackId="b" fill="#22c55e" name="North Campus" />
-              <Bar dataKey="southCampus" stackId="b" fill="#4ade80" name="South Campus" />
-              <Bar dataKey="onlineCampus" stackId="b" fill="#86efac" name="Online Campus" />
+              <Bar dataKey="mountainView" stackId="b" fill="#8884d8" name="Mountain View" />
+              <Bar dataKey="sanJose" stackId="b" fill="#82ca9d" name="San Jose" />
+              <Bar dataKey="sanFrancisco" stackId="b" fill="#ffc658" name="San Francisco" />
+              <Bar dataKey="oakland" stackId="b" fill="#ff7300" name="Oakland" />
+              <Bar dataKey="rome" stackId="b" fill="#e74c3c" name="Rome" />
+              <Bar dataKey="milan" stackId="b" fill="#d084d0" name="Milan" />
+              <Bar dataKey="modena" stackId="b" fill="#2ecc71" name="Modena" />
+              <Bar dataKey="chicago" stackId="b" fill="#3498db" name="Chicago" />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -425,16 +444,20 @@ export default function ChurchDashboard() {
             </div>
             <div className="space-y-4">
               <div className="border-l-4 border-blue-500 pl-4">
-                <p className="text-sm font-medium text-gray-900">Main Campus</p>
-                <p className="text-sm text-gray-600">"Holiday season affecting consistency. Youth event drew many families back."</p>
+                <p className="text-sm font-medium text-gray-900">Mountain View</p>
+                <p className="text-sm text-gray-600">"Strong tech community engagement. Youth group growing rapidly."</p>
               </div>
               <div className="border-l-4 border-green-500 pl-4">
-                <p className="text-sm font-medium text-gray-900">North Campus</p>
-                <p className="text-sm text-gray-600">"New small group launch increased mid-week engagement and Sunday retention."</p>
+                <p className="text-sm font-medium text-gray-900">San Jose</p>
+                <p className="text-sm text-gray-600">"New families program launched. Hispanic ministry expanding well."</p>
               </div>
               <div className="border-l-4 border-orange-500 pl-4">
-                <p className="text-sm font-medium text-gray-900">South Campus</p>
-                <p className="text-sm text-gray-600">"Weather impacts attendance. Considering live-stream improvements."</p>
+                <p className="text-sm font-medium text-gray-900">Chicago</p>
+                <p className="text-sm text-gray-600">"Weather affecting winter attendance. Indoor events showing good results."</p>
+              </div>
+              <div className="border-l-4 border-purple-500 pl-4">
+                <p className="text-sm font-medium text-gray-900">London</p>
+                <p className="text-sm text-gray-600">"International student outreach thriving. Need more volunteers for translation."</p>
               </div>
             </div>
           </div>
@@ -446,20 +469,25 @@ export default function ChurchDashboard() {
             </div>
             <div className="space-y-4">
               <div className="border-l-4 border-green-500 pl-4">
-                <p className="text-sm font-medium text-gray-900">Overall Trend</p>
-                <p className="text-sm text-gray-600">"End-year giving surge as expected. Strong stewardship series impact visible."</p>
+                <p className="text-sm font-medium text-gray-900">Global Trends</p>
+                <p className="text-sm text-gray-600">"Multi-currency giving showing strong growth. Digital platforms adoption across all locations."</p>
               </div>
               <div className="border-l-4 border-blue-500 pl-4">
-                <p className="text-sm font-medium text-gray-900">Digital Giving</p>
-                <p className="text-sm text-gray-600">"Online giving platform showing 23% increase. Mobile app adoption growing."</p>
+                <p className="text-sm font-medium text-gray-900">European Locations</p>
+                <p className="text-sm text-gray-600">"Rome and Milan leading in consistency. Frankfurt showing strong tech professional engagement."</p>
               </div>
               <div className="border-l-4 border-yellow-500 pl-4">
+                <p className="text-sm font-medium text-gray-900">Asia-Pacific</p>
+                <p className="text-sm text-gray-600">"Dubai and Saigon experiencing rapid growth. Honolulu maintaining steady island community."</p>
+              </div>
+              <div className="border-l-4 border-red-500 pl-4">
                 <p className="text-sm font-medium text-gray-900">Special Offerings</p>
-                <p className="text-sm text-gray-600">"Building fund campaign resonating well. Christmas offering exceeded goal by 15%."</p>
+                <p className="text-sm text-gray-600">"Global missions fund exceeding targets. Local community projects funded in each region."</p>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  )}
+  );
+};
